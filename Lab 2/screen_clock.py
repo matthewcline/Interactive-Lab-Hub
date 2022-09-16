@@ -64,7 +64,11 @@ while True:
     # Draw a black filled box to clear the image.
     draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-    #TODO: Lab 2 part D work should be filled in here. You should be able to look in cli_clock.py and stats.py 
+    cmd = f"echo '{time.strftime('%m/%d/%Y %H:%M:%S')}'" 
+    TIME = subprocess.check_output(cmd, shell=True).decode("utf-8")
+
+    y = top
+    draw.text((x, y), TIME, font=font, fill="#FFFFFF")
 
     # Display image.
     disp.image(image, rotation)

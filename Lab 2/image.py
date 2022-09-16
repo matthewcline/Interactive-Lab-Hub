@@ -11,6 +11,7 @@ not support PIL/pillow (python imaging library)!
 Author(s): Melissa LeBlanc-Williams for Adafruit Industries
 """
 
+import time
 import digitalio
 import board
 from PIL import Image, ImageDraw
@@ -78,24 +79,46 @@ image = Image.open("red.jpg")
 backlight = digitalio.DigitalInOut(board.D22)
 backlight.switch_to_output()
 backlight.value = True
+buttonA = digitalio.DigitalInOut(board.D23)
+buttonB = digitalio.DigitalInOut(board.D24)
+buttonA.switch_to_input()
+buttonB.switch_to_input()
 
 
-# Scale the image to the smaller screen dimension
-image_ratio = image.width / image.height
-screen_ratio = width / height
-if screen_ratio < image_ratio:
-    scaled_width = image.width * height // image.height
-    scaled_height = height
-else:
-    scaled_width = width
-    scaled_height = image.height * width // image.width
-image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
+def scale_image(image):
+    # Scale the image to the smaller screen dimension
+    image_ratio = image.width / image.height
+    screen_ratio = width / height
+    if screen_ratio < image_ratio:
+        scaled_width = image.width * height // image.height
+        scaled_height = height
+    else:
+        scaled_width = width
+        scaled_height = image.height * width // image.width
+    image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
 
-# Crop and center the image
-x = scaled_width // 2 - width // 2
-y = scaled_height // 2 - height // 2
-image = image.crop((x, y, x + width, y + height))
+    # Crop and center the image
+    x = scaled_width // 2 - width // 2
+    y = scaled_height // 2 - height // 2
+    image = image.crop((x, y, x + width, y + height))
+    return image
 
-# Display image.
-disp.image(image)
+# # Display image.
+# disp.image(image)
 
+
+while True:
+    if buttonA.value and buttonB.value:
+        backlight.value = False  # turn off backlight
+    else:
+        backlight.value = True  # turn on backlight
+    if buttonB.value and not buttonA.value:  # just button A pressed
+        image = Image.open("red.jpg")
+    if buttonA.value and not buttonB.value:  # just button B pressed
+        image = Image.open("PlacingMiniPiTFTonPi.jpg")
+    if not buttonA.value and not buttonB.value:  # none pressed
+        image = Image.open("red.jpg")
+
+    # Display image.
+    disp.image(scale_image(image))
+    time.sleep(1)

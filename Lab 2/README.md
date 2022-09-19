@@ -211,6 +211,9 @@ https://youtu.be/KLJRc6oPJgg
 ## Part G. 
 ## Sketch and brainstorm further interactions and features you would like for your clock for Part 2.
 
+Kalyan's idea: attach a voice component where the device calls out to Abby (my dog) when it's time for certain actions (such as lunch time, dinner time, etc.)
+
+My idea: Overlay text at the bottom of each image to display what is actually happening in each image.
 
 # Prep for Part 2
 

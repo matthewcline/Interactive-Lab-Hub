@@ -1,5 +1,5 @@
 # Interactive Prototyping: The Clock of Pi
-**NAMES OF COLLABORATORS HERE**
+**Collaborators: Kalyan Gautham**
 
 Does it feel like time is moving strangely during this semester?
 
